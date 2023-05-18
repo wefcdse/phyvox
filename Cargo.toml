@@ -1,0 +1,23 @@
+[package]
+name = 'phyvox'
+version = '0.1.0'
+edition = '2021'
+
+[dependencies]
+bevy-inspector-egui = '0.18.3'
+bevy_flycam = '0.10.1'
+env_logger = '0.10.0'
+log = '0.4.17'
+rand = '0.8.5'
+bevy = "0.10.1"
+
+[dependencies.bevy_rapier3d]
+version = '0.21.0'
+features = [
+    'simd-stable',
+    'debug-render',
+    'parallel',
+]
+
+[dependencies.rc_controller]
+path = '../../joystick/rc_controller'
