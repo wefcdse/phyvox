@@ -1,16 +1,10 @@
-use super::BlockType;
+use bevy::prelude::Resource;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+use super::{BlockType, Stone};
+
+#[derive(Debug, Clone, PartialEq, Eq, Resource)]
 pub struct IdMapping {
     pub mapping: Vec<BlockType>,
-}
-
-impl Default for IdMapping {
-    fn default() -> Self {
-        Self {
-            mapping: vec![BlockType::None],
-        }
-    }
 }
 
 impl IdMapping {
@@ -18,6 +12,14 @@ impl IdMapping {
         match self.mapping.get(id) {
             Some(v) => Some(*v),
             None => None,
+        }
+    }
+}
+
+impl Default for IdMapping {
+    fn default() -> Self {
+        Self {
+            mapping: vec![BlockType::None, BlockType::Stone(Stone)],
         }
     }
 }

@@ -2,7 +2,7 @@ use crate::chunk::{blocks::BlockId, chunk::CHUNK_SIZE, Pos};
 
 use super::Chunk;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy)]
 pub struct ChunkIter<'a> {
     chunk: &'a Chunk,
     pos_in_chunk: Pos,
@@ -12,7 +12,7 @@ impl Chunk {
     pub fn iter(&self) -> ChunkIter {
         ChunkIter {
             chunk: self,
-            pos_in_chunk: Pos { x: 0, y: 0, z: 0 },
+            pos_in_chunk: Pos::from_xyz(0, 0, 0),
         }
     }
 }
@@ -26,16 +26,16 @@ impl Iterator for ChunkIter<'_> {
             let out_pos = self.pos_in_chunk;
             let _out_pos_world = self.chunk.base_pos_of_chunk + self.pos_in_chunk;
 
-            self.pos_in_chunk.x += 1;
+            *self.pos_in_chunk.x_mut() += 1;
 
-            if self.pos_in_chunk.x >= CHUNK_SIZE as i64 {
-                self.pos_in_chunk.x = 0;
-                self.pos_in_chunk.y += 1;
+            if self.pos_in_chunk.x() >= CHUNK_SIZE as i64 {
+                *self.pos_in_chunk.x_mut() = 0;
+                *self.pos_in_chunk.y_mut() += 1;
             }
 
-            if self.pos_in_chunk.y >= CHUNK_SIZE as i64 {
-                self.pos_in_chunk.y = 0;
-                self.pos_in_chunk.z += 1;
+            if self.pos_in_chunk.y() >= CHUNK_SIZE as i64 {
+                *self.pos_in_chunk.y_mut() = 0;
+                *self.pos_in_chunk.z_mut() += 1;
             }
 
             Some((out_pos, out_id))

@@ -1,7 +1,7 @@
 use crate::chunk::{blocks::block_id::block_type::BlockClient, BlockVisibility};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct Stone {}
+pub struct Stone;
 
 impl BlockClient for Stone {
     fn visibility(self) -> BlockVisibility {

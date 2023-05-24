@@ -10,6 +10,7 @@ impl Chunk {
     pub fn generate_quad_group(&mut self, id_mapping: &IdMapping) {
         let mut quads = QuadGroup::default();
         for (pos, block) in self.iter() {
+            //dbg!(pos);
             let block = match block.get_block_type(id_mapping) {
                 Some(v) => v,
                 None => continue,
@@ -19,6 +20,7 @@ impl Chunk {
                 _ => continue,
             };
             for face in BlockFace::iter_all() {
+                // dbg!(face);
                 let neighber_visibility = match self.get_pos_in_chunk(pos + face) {
                     Some(v) => match v.get_block_type(id_mapping) {
                         Some(v) => v.visibility(),
@@ -35,6 +37,7 @@ impl Chunk {
             }
         }
         self.quad_group = Some(quads);
+        self.mesh_up_to_date = false;
     }
 
     pub fn get_quad_group(&self) -> Option<&QuadGroup> {
